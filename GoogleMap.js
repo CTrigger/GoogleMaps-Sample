@@ -15,8 +15,13 @@ function media(view) {
 
 	return cartesian;
 }
-var pmedia = media(locations)
 
+function isInfoWindowOpen(infoWindow){
+    var map = infoWindow.getMap();
+    return (map !== null && typeof map !== "undefined");
+}
+
+var pmedia = media(locations)
 
 var map = new google.maps.Map(document.getElementById('map'), {
 	zoom: 12,
@@ -44,14 +49,24 @@ for (i = 0; i < locations.length; i++) {
 
 	google.maps.event.addListener(marker, 'click', (function (marker, i) {
 		return function () {
+			//infowindow.SetOptions();
 			if (marker.getAnimation() !== null) {
 				marker.setAnimation(null);
-				infowindow.close(map, marker);
+				infowindow.close();
 			} else {
 				marker.setAnimation(google.maps.Animation.BOUNCE);
 				infowindow.setContent(locations[i][0]);
 				infowindow.open(map, marker);
 			}
+			
 		}
 	})(marker, i));
+	
+	google.maps.event.addListener(infowindow, 'closeclick', (function (marker, i) {
+		return function () {
+			marker.setAnimation(null);
+		}
+	})(marker, i));
+	
+
 }
