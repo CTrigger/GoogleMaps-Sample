@@ -51,10 +51,14 @@ for (i = 0; i < locations.length; i++) {
 		return function () {
 			//infowindow.SetOptions();
 			if (marker.getAnimation() !== null) {
+				map.panTo(new google.maps.LatLng(pmedia[0],pmedia[1]));
+				map.setZoom(12);
 				marker.setAnimation(null);
 				infowindow.close();
 			} else {
 				marker.setAnimation(google.maps.Animation.BOUNCE);
+				map.panTo(new google.maps.LatLng(locations[i][1], locations[i][2]));
+				map.setZoom(16);
 				infowindow.setContent(locations[i][0]);
 				infowindow.open(map, marker);
 			}
@@ -65,6 +69,9 @@ for (i = 0; i < locations.length; i++) {
 	google.maps.event.addListener(infowindow, 'closeclick', (function (marker, i) {
 		return function () {
 			marker.setAnimation(null);
+			map.setZoom(12);
+			map.panTo(new google.maps.LatLng(pmedia[0],pmedia[1]));
+			
 		}
 	})(marker, i));
 	
